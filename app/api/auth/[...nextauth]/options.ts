@@ -29,10 +29,12 @@ export const options: NextAuthOptions = {
     async jwt({ token, account, profile }) {
       if (!token.sub) return token;
 
-      //To prevent account firing endpoint during credential login
+      //To prevent account firing endpoint during credentia login
       if (account && account?.provider !== "credentials") {
 
         let userId = "";
+
+// Check for existing user, with profile.email first, before creating new one.
 
           const newUser = await axios.post("http://localhost:8000/api/auth/register", {
             name: profile?.name,
